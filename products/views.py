@@ -40,19 +40,13 @@ class LoginView(APIView):
             tokens = get_tokens_for_user(user)
             return Response({'message': 'Login successful!', 'tokens': tokens}, status=status.HTTP_200_OK)
         return Response({'error': 'Invalid credentials!'}, status=status.HTTP_401_UNAUTHORIZED)
-
-# Logout User
+    
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        try:
-            refresh_token = request.data['refresh']
-            token = RefreshToken(refresh_token)
-            token.blacklist()  # Blacklist the refresh token
-            return Response({'message': 'Logout successful!'}, status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            return Response({'error': 'Invalid refresh token!'}, status=status.HTTP_400_BAD_REQUEST)
+        # Optionally, you can blacklist the token or inform the user to remove it from the client-side.
+        return Response({"message": "Successfully logged out."}, status=200)
 
 # Product CRUD Operations (POST, GET, PUT, DELETE)
 class ProductView(APIView):
